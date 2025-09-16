@@ -9,9 +9,9 @@
   <header>
     <h1 class="logo">🍿 PopcornIQ</h1>
     <nav>
-      <a href="{{ url_for('index') }}">Home</a>
-      {% if session.get('user') %}
-        <span>Welcome, {{ session['user'] }}!</span>
+      <a href="{{ url_for('home') }}">Home</a>
+      {% if user %}
+        <span>Welcome, {{ user }}!</span>
         <a href="{{ url_for('logout') }}">Logout</a>
       {% else %}
         <a href="{{ url_for('login') }}">Login</a>
@@ -19,6 +19,16 @@
       {% endif %}
     </nav>
   </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flashes">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <div class="movie-detail">
     <div class="poster">
@@ -38,8 +48,8 @@
   <section class="reviews">
     <h3>User Ratings & Reviews</h3>
 
-    {% if session.get('user') %}
-      <form method="post">
+    {% if user %}
+      <form method="post" action="{{ url_for('review', movie_id=movie['id']) }}">
         <label for="rating">Rating (1-5):</label>
         <input type="number" name="rating" min="1" max="5" required>
         <br><br>
@@ -52,17 +62,22 @@
     {% endif %}
 
     <div class="reviews-list">
-      {% for r in reviews %}
-        <div class="review-card">
-          <p><strong>{{ r['username'] }}</strong> rated {{ r['rating'] }}/5</p>
-          <p>{{ r['review'] }}</p>
-        </div>
-      {% endfor %}
+      {% if reviews %}
+        {% for r in reviews %}
+          <div class="review-card">
+            <p><strong>{{ r['username'] }}</strong> rated {{ r['rating'] }}/5</p>
+            <p>{{ r['review'] }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No reviews yet. Be the first to review!</p>
+      {% endif %}
     </div>
   </section>
 
   <footer>
-    <p>Made with ❤️ by Rewa</p>
+    <p>© 2025 PopcornIQ. Crafted by Rewa. All rights reserved.</p>
   </footer>
 </body>
 </html>
+
