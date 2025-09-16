@@ -1,0 +1,122 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+header {
+  background: linear-gradient(90deg, #ff7eb3, #8e44ad);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav a, nav span {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+.search-bar {
+  text-align: center;
+  margin: 20px;
+}
+
+.search-bar input {
+  padding: 8px;
+  width: 250px;
+}
+
+.search-bar button {
+  padding: 8px 12px;
+  background: #8e44ad;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.section-title {
+  text-align: center;
+  margin: 20px;
+  color: #8e44ad;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.movie-card {
+  text-align: center;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #f1f1f1;
+  margin-top: 20px;
+}
+
+.movie-detail {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.poster img {
+  width: 300px;
+  border-radius: 10px;
+}
+
+.info {
+  max-width: 600px;
+}
+
+.reviews {
+  padding: 20px;
+}
+
+.review-card {
+  background: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.form-container {
+  width: 300px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.form-container input, .form-container button, textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.form-container button {
+  background: #8e44ad;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

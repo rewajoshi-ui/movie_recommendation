@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PopcornIQ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1 class="logo">🍿 PopcornIQ</h1>
+    <nav>
+      {% if session.get('user') %}
+        <span>Welcome, {{ session['user'] }}!</span>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <form action="{{ url_for('search') }}" method="get" class="search-bar">
+    <input type="text" name="q" placeholder="Search movies..." value="{{ search_query or '' }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <h2 class="section-title">Trending Movies</h2>
+  <div class="movie-grid">
+    {% for movie in movies %}
+      <div class="movie-card">
+        <a href="{{ url_for('movie_detail', movie_id=movie['id']) }}">
+          {% if movie['poster_path'] %}
+            <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+          {% else %}
+            <div class="no-poster">No Poster</div>
+          {% endif %}
+          <p>{{ movie['title'] }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <footer>
+    <p>Made with ❤️ by Rewa</p>
+  </footer>
+</body>
+</html>

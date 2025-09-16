@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ movie['title'] }} - PopcornIQ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1 class="logo">🍿 PopcornIQ</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      {% if session.get('user') %}
+        <span>Welcome, {{ session['user'] }}!</span>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="movie-detail">
+    <div class="poster">
+      {% if movie['poster_path'] %}
+        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+      {% else %}
+        <div class="no-poster">No Poster</div>
+      {% endif %}
+    </div>
+    <div class="info">
+      <h2>{{ movie['title'] }}</h2>
+      <p><strong>Release Date:</strong> {{ movie['release_date'] }}</p>
+      <p><strong>Overview:</strong> {{ movie['overview'] }}</p>
+    </div>
+  </div>
+
+  <section class="reviews">
+    <h3>User Ratings & Reviews</h3>
+
+    {% if session.get('user') %}
+      <form method="post">
+        <label for="rating">Rating (1-5):</label>
+        <input type="number" name="rating" min="1" max="5" required>
+        <br><br>
+        <label for="review">Review:</label><br>
+        <textarea name="review" rows="3" cols="40" required></textarea><br>
+        <button type="submit">Submit</button>
+      </form>
+    {% else %}
+      <p><a href="{{ url_for('login') }}">Login</a> to leave a rating & review.</p>
+    {% endif %}
+
+    <div class="reviews-list">
+      {% for r in reviews %}
+        <div class="review-card">
+          <p><strong>{{ r['username'] }}</strong> rated {{ r['rating'] }}/5</p>
+          <p>{{ r['review'] }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer>
+    <p>Made with ❤️ by Rewa</p>
+  </footer>
+</body>
+</html>
