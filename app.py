@@ -40,12 +40,15 @@ def home():
     movies = response.json().get("results", []) if response.status_code == 200 else []
     return render_template("index.html", movies=movies, user=session.get("user"))
 
-@app.route("/search", methods=["GET"])
+@app.route("/search")
 def search():
-    query = request.args.get("q")
-    url = f"{BASE_URL}/search/movie?api_key={API_KEY}&query={query}"
-    response = requests.get(url)
-    movies = response.json().get("results", []) if response.status_code == 200 else []
+    query = request.args.get("q", "")  # match the input name in your HTML
+    movies = []
+    if query:
+        url = f"{BASE_URL}/search/movie?api_key={API_KEY}&query={query}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            movies = response.json().get("results", [])
     return render_template("index.html", movies=movies, search_query=query, user=session.get("user"))
 
 @app.route("/movie/<int:movie_id>")
@@ -80,6 +83,8 @@ def login():
             return redirect(url_for("home"))
         else:
             flash("Invalid username or password", "danger")
+            return redirect(url_for("login"))  
+
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -98,8 +103,10 @@ def register():
             return redirect(url_for("login"))
         except sqlite3.IntegrityError:
             flash("Username already exists!", "danger")
+            return redirect(url_for("register"))  # <- changed here
         finally:
             conn.close()
+
     return render_template("register.html")
 
 @app.route("/logout")
